@@ -32,6 +32,20 @@ describe('gulp-rewrite-image-path', function() {
       });
     });
 
+    it('prepends the correct path when the path includes a protocol (eg. http://)', function(done) {
+      var fakeFile = new File({
+        contents: new Buffer('<img src="test.png">')
+      });
+      var rewriter = rewriteImagePath({path: 'http://wikipedia.org'});
+      rewriter.write(fakeFile);
+      rewriter.once('data', function(file) {
+        assert(file.isBuffer());
+        assert.equal(file.contents.toString('utf8'), '<img src="http://wikipedia.org/test.png">');
+        done();
+      });
+    });
+
+
     it('does not modify the path if it is a full URI', function(done) {
       var fakeFile = new File({
         contents: new Buffer('<img src="https://www.wikipedia.org/static/favicon/wikipedia.ico">')

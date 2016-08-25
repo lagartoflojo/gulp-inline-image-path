@@ -2,7 +2,6 @@
 var gutil = require('gulp-util');
 var through = require('through2');
 var cheerio = require('cheerio');
-var path = require('path');
 var uriRegex = new RegExp("(http|ftp|https)?://.+");
 
 module.exports = function(opts) {
@@ -29,7 +28,7 @@ module.exports = function(opts) {
         if (this.attr('src')) {
           var image = this.attr('src');
           if(image && !image.match(uriRegex)) {
-            this.attr('src', path.join(prependPath, image));
+            this.attr('src', [prependPath, image].join('/'));
           }
         }
       });
