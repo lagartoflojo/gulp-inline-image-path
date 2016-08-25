@@ -46,15 +46,28 @@ describe('gulp-rewrite-image-path', function() {
     });
 
 
-    it('does not modify the path if it is a full URI', function(done) {
+    it('does not modify the src if it includes a protocol (eg. http://)', function(done) {
       var fakeFile = new File({
-        contents: new Buffer('<img src="https://www.wikipedia.org/static/favicon/wikipedia.ico">')
+        contents: new Buffer('<img src="https://www.wikipedia.org/favicon.ico">')
       });
       var rewriter = rewriteImagePath({path: 'images/build'});
       rewriter.write(fakeFile);
       rewriter.once('data', function(file) {
         assert(file.isBuffer());
-        assert.equal(file.contents.toString('utf8'), '<img src="https://www.wikipedia.org/static/favicon/wikipedia.ico">');
+        assert.equal(file.contents.toString('utf8'), '<img src="https://www.wikipedia.org/favicon.ico">');
+        done();
+      });
+    });
+
+    it('does not modify the src if it is a protocol-relative URL', function(done) {
+      var fakeFile = new File({
+        contents: new Buffer('<img src="//www.wikipedia.org/favicon.ico">')
+      });
+      var rewriter = rewriteImagePath({path: 'images/build'});
+      rewriter.write(fakeFile);
+      rewriter.once('data', function(file) {
+        assert(file.isBuffer());
+        assert.equal(file.contents.toString('utf8'), '<img src="//www.wikipedia.org/favicon.ico">');
         done();
       });
     });

@@ -1,6 +1,6 @@
 {
   "name": "gulp-rewrite-image-path",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Convert and replace src attrs within your data. Based on catindev/gulp-inline-image-path.",
   "main": "index.js",
   "scripts": {

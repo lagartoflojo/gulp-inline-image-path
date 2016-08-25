@@ -2,7 +2,7 @@
 var gutil = require('gulp-util');
 var through = require('through2');
 var cheerio = require('cheerio');
-var uriRegex = new RegExp("(http|ftp|https)?://.+");
+var uriRegex = new RegExp("(http:|ftp:|https:)?//.+");
 
 module.exports = function(opts) {
   var prependPath = '';
