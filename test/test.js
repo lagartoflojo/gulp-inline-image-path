@@ -1,0 +1,49 @@
+var assert = require('assert');
+var es = require('event-stream');
+var File = require('vinyl');
+var rewriteImagePath = require('../');
+
+describe('gulp-rewrite-image-path', function() {
+  describe('in buffer mode', function() {
+
+    it('prepends the correct path when the image is in the root directory', function(done) {
+      var fakeFile = new File({
+        contents: new Buffer('<img src="test.png">')
+      });
+      var rewriter = rewriteImagePath({path: 'images/build'});
+      rewriter.write(fakeFile);
+      rewriter.once('data', function(file) {
+        assert(file.isBuffer());
+        assert.equal(file.contents.toString('utf8'), '<img src="images/build/test.png">');
+        done();
+      });
+    });
+
+    it('prepends the correct path when the image is not in the root directory', function(done) {
+      var fakeFile = new File({
+        contents: new Buffer('<img src="somewhere/test.png">')
+      });
+      var rewriter = rewriteImagePath({path: 'images/build'});
+      rewriter.write(fakeFile);
+      rewriter.once('data', function(file) {
+        assert(file.isBuffer());
+        assert.equal(file.contents.toString('utf8'), '<img src="images/build/somewhere/test.png">');
+        done();
+      });
+    });
+
+    it('does not modify the path if it is a full URI', function(done) {
+      var fakeFile = new File({
+        contents: new Buffer('<img src="https://www.wikipedia.org/static/favicon/wikipedia.ico">')
+      });
+      var rewriter = rewriteImagePath({path: 'images/build'});
+      rewriter.write(fakeFile);
+      rewriter.once('data', function(file) {
+        assert(file.isBuffer());
+        assert.equal(file.contents.toString('utf8'), '<img src="https://www.wikipedia.org/static/favicon/wikipedia.ico">');
+        done();
+      });
+    });
+
+  });
+});

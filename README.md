@@ -1,4 +1,4 @@
-Convert and replace src attrs within your data.
+Convert and replace the image src from your HTML.
 
 ## Example
 
@@ -6,42 +6,45 @@ Convert and replace src attrs within your data.
 
 ```js
 var gulp = require('gulp');
-var inlineImagePath = require('gulp-inline-image-path');
+var rewriteImagePath = require('gulp-rewrite-image-path');
 
 gulp.task('default', function () {
-	gulp.src('index.html')
-		...
-		.pipe(inlineImagePath({path:"build/images"}))
-		...
+  gulp.src('index.html')
+    ...
+    .pipe(rewriteImagePath({path:"build/images"}))
+    ...
 });
 ```
 
 
-##### index.html // Before...
+##### Before:
 
-```js
+```html
 <html>
-	<head>
-	</head>
-	<body>
-		<img src="images/sample.png" />
+  <head>
+  </head>
+  <body>
+    <img src="sample1.png" />
+    <img src="subdirectory/sample2.png" />
+    <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" />
 ...
 ```
 
 
-##### path/index.html // ...after:
+##### After:
 
 ```html
 <html>
-	<head>
-	</head>
-	<body>
-		<img src="build/images/sample.png">
-
+  <head>
+  </head>
+  <body>
+    <img src="build/images/sample.png">
+    <img src="build/images/subdirectory/sample2.png" />
+    <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" />
 ...
 ```
 
 
 ### License
 
-MIT © catindev
+MIT © lagartoflojo
