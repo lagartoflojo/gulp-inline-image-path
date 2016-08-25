@@ -1,4 +1,4 @@
-Convert and replace the image src from your HTML.
+Convert and replace the `src` of the images in your HTML files.
 
 ## Example
 
