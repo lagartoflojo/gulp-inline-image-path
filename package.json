@@ -1,6 +1,6 @@
 {
   "name": "gulp-rewrite-image-path",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Convert and replace src attrs within your data. Based on catindev/gulp-inline-image-path.",
   "main": "index.js",
   "scripts": {
@@ -54,6 +54,5 @@
       "email": "lagartoflojo@gmail.com"
     }
   ],
-  "directories": {},
-  "readme": "ERROR: No README data found!"
+  "directories": {}
 }
